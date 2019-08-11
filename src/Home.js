@@ -1,27 +1,26 @@
-import React, { Component } from 'react';
-import appStyle from './Home.module.css'
-import ResultModal from './components/modal';
-import axios from 'axios';
-import baseUrl from './FirebaseUrl';
+import React, { Component } from "react";
+import appStyle from "./Home.module.css";
+import ResultModal from "./components/modal";
+import axios from "axios";
+import baseUrl from "./FirebaseUrl";
 
-import { createBrowserHistory } from 'history';
-const history = createBrowserHistory()
+import { createBrowserHistory } from "history";
+const history = createBrowserHistory();
 
 var randomstring = require("randomstring");
 
-class Home  extends Component{
-
+class Home extends Component {
   state = {
-    currentUrls:{},
-    value: '',
-    openModal: false,
-    tinyURL: null,
-    title: 'Trim URL Below!'
-  }
+      currentUrls: {},
+      value: "",
+      openModal: false,
+      tinyURL: null,
+      title: "Trim URL Below!"
+  };
 
-  componentDidMount = async ()=> {
-    await this.getURLs();
-    this.redirect()
+  componentDidMount = async () => {
+      await this.getURLs();
+      this.redirect();
   }
 
   getURLs = async () =>{
@@ -36,7 +35,7 @@ class Home  extends Component{
 
   redirect = ()=>{
     if(window.location.pathname.replace(/[/]/,"").length >1 ){
-      let myUrl = ''
+      let myUrl = ""
       const param = window.location.pathname.replace(/[/]/,"")
       Object.keys(this.state.currentUrls).find(currentURL=>{
         if (currentURL === param){
@@ -48,7 +47,7 @@ class Home  extends Component{
       } else {
         window.history.pushState(null,null,"/")
         this.setState({
-          title:'Not a valid URL. Create a new URL Below'
+          title:"Not a valid URL. Create a new URL Below"
         })
       }
     }
@@ -71,7 +70,7 @@ class Home  extends Component{
       .catch(err=>{
         console.log(err)
         this.setState({
-          title: 'Whoops...something went wrong'
+          title: "Whoops...something went wrong"
         })
       })
   }
@@ -85,7 +84,7 @@ class Home  extends Component{
   createHash = () =>{
     let newHash = randomstring.generate({
       length: 12,
-      charset: 'alphabetic'
+      charset: "alphabetic"
     });
     if(Object.keys(this.state.currentUrls).includes(newHash)){
       this.createHash()
@@ -98,9 +97,9 @@ class Home  extends Component{
     e.preventDefault();
     const currentUrls = this.state.currentUrls
     const newUrl = this.state.value
-    if(newUrl === ''){
+    if(newUrl === ""){
       this.setState({
-        title: 'Oops...you forgot to enter a URL'
+        title: "Oops...you forgot to enter a URL"
       })
     }else{
      if(Object.values(currentUrls).includes(newUrl)){
@@ -132,7 +131,7 @@ class Home  extends Component{
           newURL={this.state.tinyURL}
           yourHref={this.state.value}
         />
-        <h1>Greg's URL Shortener</h1>
+        <h1>Greg"s URL Shortener</h1>
         <div className={appStyle.positioning}>
           <form className={appStyle.box} onSubmit={e=>this.submitHandler(e)}>
             <p>{this.state.title}</p>
@@ -140,7 +139,7 @@ class Home  extends Component{
               <input
                 className={appStyle.inputText}
                 type="url"
-                placeholder='Paste URL Here'
+                placeholder="Paste URL Here"
                 value={this.state.value}
                 onChange={this.valueHandler}
                 data-cy="input"
@@ -155,6 +154,6 @@ class Home  extends Component{
       </div>
     );
   }
-}
+};
 
 export default Home;
