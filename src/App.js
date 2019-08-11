@@ -1,19 +1,13 @@
-import React from 'react'
-import {Switch, Redirect, Route} from 'react-router-dom'
-import Home from './Home'
-import axios from 'axios'
+import { Switch, Redirect, Route } from 'react-router-dom';
+import Home from './Home';
+import axios from 'axios';
 import baseUrl from './FirebaseUrl';
 
-const App = () =>{
-
-    const NoPage = () =>{
-        
-        return(
-          <div>
-              <Redirect push to='/'/>
-          </div>
-        );
-      };
+const App = () => {
+    const NoPage = () => {
+        return (
+            <Redirect push to="/" />);
+    };
 
     const Redirector = () =>{
         const hash = geturlparams.hash
@@ -30,9 +24,9 @@ const App = () =>{
 
     return(
         <Switch>
-            <Route  path="/" exact Component={Home}/>
+            <Route path="/" exact Component={Home}/>
             <Route exact path=":hash" Component={Redirector()}/>
-            {/* <Route component={NoPage}/> */}
+            <Route component={NoPage()}/>
         </Switch>
     );
 };
