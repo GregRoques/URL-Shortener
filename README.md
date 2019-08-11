@@ -28,6 +28,7 @@ A custom a URL shortener web application in the same vein as bitly, TinyURL, etc
 * npm i axios
 * npm i cypress --save-dev
 * npm i --save history
+* ./node_modules/.bin/eslint --init (https://www.npmjs.com/package/eslint)
 
 ## Functionality
 
