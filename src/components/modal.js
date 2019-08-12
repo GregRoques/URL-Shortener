@@ -2,12 +2,8 @@ import React from "react";
 import update from "./update.module.css";
 
 const ResultModal = props => {
-    const cssModal = [
-        update.Modal,
-        props.show ? update.ModalOpen : update.ModalClosed
-    ];
-    return (
-        <div className={cssModal.join(" ")}>
+    return props.show ? (
+        <div>
             <div>
                 <p>Your trimmed URL is:</p>
                 <p><a rel="noopener noreferrer" href={props.yourHref} target="_blank" >{props.newURL}</a></p>
@@ -16,7 +12,7 @@ const ResultModal = props => {
                 x
             </button>
         </div>
-    );
+    ) : null;
 };
 
 export default ResultModal;
