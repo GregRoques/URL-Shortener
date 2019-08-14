@@ -1,6 +1,6 @@
 const express = require("express");
-const hash = express.Router();
+const router = express.Router();
 
 // hash.get
 
-module.exports = hash;
+module.exports = router;
