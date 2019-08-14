@@ -100,7 +100,7 @@ class Home extends Component {
               <h1>Greg's URL Shortener</h1>
               <div className={appStyle.positioning}>
                   <form className={appStyle.box} onSubmit={e => this.submitHandler(e)}>
-                      <p>{ this.props.location.state ? this.props.location.state.title : "Trim Url Below!" }</p>
+                      <p>{ this.props.location.state ? this.props.location.state.message : "Trim Url Below!" }</p>
                       <div>
                           <input
                               className={appStyle.inputText}

@@ -1,17 +1,17 @@
-import React from "react";
+import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import Home from "./Home";
-// import Redirector from "./Redirector";
+import Redirector from "./components/Redirector";
 
-const App = () => {
-    return (
-        <div>
+class App extends Component {
+    render () {
+        return (
             <Switch>
-                <Route path="/" exact component={ Home }/>
-                {/* <Route exactpath="/:hash" Component={ Redirector }/> */}
+                <Route exact path="/" component={ Home }/>
+                <Route path="/:hash" component={ Redirector }/>
             </Switch>
-        </div>
-    );
+        );
+    }
 };
 
 export default App;

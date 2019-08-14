@@ -1,18 +1,18 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const helmet = require("helmet");
 
 const app = express();
 const PORT = 2000;
 
-const hash = require("./routes/hash");
-const redirect = require("./routes/redirect");
+const routing = require("./routes/routing");
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors);
 app.use(helmet());
 
-app.use(hash);
-app.use("/:hash", redirect);
+app.use("/", routing);
 
 app.listen(PORT, () => {
     console.log("Listening on ", PORT);
