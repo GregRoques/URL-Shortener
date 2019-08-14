@@ -20,8 +20,8 @@ class Redirector extends Component {
         });
     }
 
-    componentDidMount () {
-        this.getHash();
+    async componentDidMount () {
+        await this.getHash();
     }
 
     render () {

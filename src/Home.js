@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import appStyle from "./Home.module.css";
 import ResultModal from "./components/modal";
-import axios from "axios";
-import baseUrl from "./FirebaseUrl";
+// import axios from "axios";
 
 var randomstring = require("randomstring");
 
@@ -14,35 +13,21 @@ class Home extends Component {
       tinyURL: null
   };
 
-  componentDidMount = async () => {
-      await this.getURLs();
-  }
-
-  getURLs = async () => {
-      const res = await axios.get(`${baseUrl}.json`);
-      const { data } = res;
-      Object.keys(data).map(each => {
-          this.setState(prevState => {
-              currentURL: prevState.currentUrls[data[each].hash] = data[each].originalUrl;
-          });
-      });
-  }
-
-  addToDatabase = (trim, full) => {
-      const myPost = {
-          hash: trim,
-          originalUrl: full
-      };
-      axios.post(`${baseUrl}.json`, myPost).then(async res => {
-          await this.getURLs();
-          this.setState({
-              openModal: true,
-              tinyURL: `localhost:3000/${trim}`
-          });
-      }).catch(err => {
-          console.log(err);
-      });
-  }
+//   addToDatabase = (trim, full) => {
+//       const myPost = {
+//           hash: trim,
+//           originalUrl: full
+//       };
+//       axios.post(`${baseUrl}.json`, myPost).then(async res => {
+//           await this.getURLs();
+//           this.setState({
+//               openModal: true,
+//               tinyURL: `localhost:3000/${trim}`
+//           });
+//       }).catch(err => {
+//           console.log(err);
+//       });
+//   }
 
   valueHandler = e => {
       this.setState({
