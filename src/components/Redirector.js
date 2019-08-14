@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 
-const apiHost = "http://localhost:2000";
-
 class Redirector extends Component {
-    componentDidMount () {
+    getHash = () => {
+        const apiHost = "http://localhost:2000";
         const { match: { params } } = this.props;
+
         axios({
-            methods: "POST",
+            method: "GET",
             url: `${apiHost}/redirect`,
             data: {
                 hash: params.hash
@@ -18,6 +18,10 @@ class Redirector extends Component {
         }).catch(err => {
             console.log(err);
         });
+    }
+
+    componentDidMount () {
+        this.getHash();
     }
 
     render () {
