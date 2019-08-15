@@ -15,4 +15,13 @@ router.get("/:hash", (req, res) => {
     });
 });
 
+router.post("/newurl", (req, res) => {
+    const originalUrl = req.query.originalurl;
+    const urlSearch = `SELECT hash, url FROM urls WHERE url='${originalUrl}'`;
+    db.execute(urlSearch).then(results => {
+        console.log(results[0][0]);
+        res.json(results[0][0]);
+    });
+});
+
 module.exports = router;
