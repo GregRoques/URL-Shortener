@@ -4,9 +4,11 @@ import axios from "axios";
 
 class Redirector extends Component {
     getHash = () => {
-        const apiHost = "http://localhost:2000/redirect";
-        axios.get(`${apiHost}/:hash`).then(res => {
-            window.location.href(`http://${res.data}`);
+        const apiHost = "http://localhost:2000";
+        const hash = this.props.match.params.hash;
+        axios.get(`${apiHost}/${hash}`).then(res => {
+            console.log(res.data);
+            window.location.replace(`http://${res.data}`);
         }).catch(err => {
             console.log(err);
         });

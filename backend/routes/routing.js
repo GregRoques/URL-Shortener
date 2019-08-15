@@ -2,18 +2,11 @@ const express = require("express");
 const router = express.Router();
 const db = require("../util/database");
 
-router.use((req, res, next) => {
-    console.log(req.body.method, req.body.url, req.body.data);
-    next();
-});
-
 router.get("/:hash", (req, res) => {
     const hashSearch = req.params.hash;
-    console.log(hashSearch);
-    const selectUrl = `Select url from urls where hash = '${hashSearch}'`;
+    const selectUrl = `SELECT url FROM urls WHERE hash='${hashSearch}'`;
     db.execute(selectUrl).then(results => {
-        console.log(results);
-        res.json(results);
+        res.json(results[0][0].url);
     }).catch(err => {
         console.log(err);
         if (err) {
