@@ -7,8 +7,8 @@ router.use((req, res, next) => {
     next();
 });
 
-router.get("/redirect", (req, res) => {
-    const hashSearch = req.data.hash;
+router.get("/:hash", (req, res) => {
+    const hashSearch = req.params.hash;
     console.log(hashSearch);
     const selectUrl = `Select url from urls where hash = '${hashSearch}'`;
     db.execute(selectUrl).then(results => {

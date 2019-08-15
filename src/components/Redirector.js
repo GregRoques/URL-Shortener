@@ -4,24 +4,16 @@ import axios from "axios";
 
 class Redirector extends Component {
     getHash = () => {
-        const apiHost = "http://localhost:2000";
-        const { match: { params } } = this.props;
-
-        axios({
-            method: "GET",
-            url: `${apiHost}/redirect`,
-            data: {
-                hash: params.hash
-            }
-        }).then(res => {
-            window.location.href(`https:${res.data}`);
+        const apiHost = "http://localhost:2000/redirect";
+        axios.get(`${apiHost}/:hash`).then(res => {
+            window.location.href(`http://${res.data}`);
         }).catch(err => {
             console.log(err);
         });
     }
 
-    async componentDidMount () {
-        await this.getHash();
+    componentDidMount () {
+        this.getHash();
     }
 
     render () {

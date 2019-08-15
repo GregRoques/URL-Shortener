@@ -13,22 +13,6 @@ class Home extends Component {
       tinyURL: null
   };
 
-//   addToDatabase = (trim, full) => {
-//       const myPost = {
-//           hash: trim,
-//           originalUrl: full
-//       };
-//       axios.post(`${baseUrl}.json`, myPost).then(async res => {
-//           await this.getURLs();
-//           this.setState({
-//               openModal: true,
-//               tinyURL: `localhost:3000/${trim}`
-//           });
-//       }).catch(err => {
-//           console.log(err);
-//       });
-//   }
-
   valueHandler = e => {
       this.setState({
           value: e.target.value
