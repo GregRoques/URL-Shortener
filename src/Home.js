@@ -1,61 +1,52 @@
 import React, { Component } from "react";
 import appStyle from "./Home.module.css";
 import ResultModal from "./components/modal";
-// import axios from "axios";
-
-var randomstring = require("randomstring");
+import swal from "sweetalert";
+import axios from "axios";
 
 class Home extends Component {
   state = {
-      currentUrls: {},
       value: "",
       openModal: false,
       tinyURL: null
   };
 
   valueHandler = e => {
+      const url = e.target.value.split("http://" || "https://")[1];
       this.setState({
-          value: e.target.value
+          value: url
       });
-  }
-
-  createHash = () => {
-      const newHash = randomstring.generate({
-          length: 12,
-          charset: "alphabetic"
-      });
-      if (Object.keys(this.state.currentUrls).includes(newHash)) {
-          this.createHash();
-      } else {
-          return newHash;
-      }
-  }
-
-  submitHandler = e => {
-      e.preventDefault();
-      const currentUrls = this.state.currentUrls;
-      const newUrl = this.state.value;
-      if (newUrl === "") {
-          window.confirm("Meoooowww");
-      } else {
-          if (Object.values(currentUrls).includes(newUrl)) {
-              const link = Object.keys(currentUrls).find(url => currentUrls[url] === newUrl);
-              this.setState({
-                  openModal: true,
-                  tinyURL: `localhost:3000/${link}`
-              });
-          } else {
-              const hash = this.createHash();
-              this.addToDatabase(hash, newUrl);
-          }
-      }
-  }
+  };
 
   closeModal = () => {
       this.setState({
           openModal: false
       });
-  }
+  };
+
+  submitHandler = e => {
+      e.preventDefault();
+      const newUrl = this.state.value;
+      if (newUrl === "") {
+          swal({
+              text: "You didn't input a url for me to claw in half.",
+              icon: "https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/crying-cat-face.png",
+              button: "I'm on it!"
+          });
+      } else {
+          const apiHost = "http://localhost:2000/newurl";
+          axios.post(`${apiHost}, {
+              orginalurl: ${this.state.value}
+          }`).then(res => {
+              this.setState({
+                  value: res.data.url,
+                  tinyurl: res.data.hash
+              });
+          }).catch(err => {
+              console.log(err);
+          });
+      }
+  };
 
   render () {
       return (
