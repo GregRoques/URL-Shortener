@@ -7,14 +7,14 @@ import axios from "axios";
 class Home extends Component {
   state = {
       value: "",
+      urlRedirect: "",
       openModal: false,
       tinyURL: null
   };
 
   valueHandler = e => {
-      const url = e.target.value.split("http://" || "https://")[1];
       this.setState({
-          value: url
+          value: e.target.value
       });
   };
 
@@ -35,12 +35,12 @@ class Home extends Component {
           });
       } else {
           const apiHost = "http://localhost:2000/newurl";
-          axios.post(`${apiHost}, {
-              orginalurl: ${this.state.value}
-          }`).then(res => {
+          const url = (this.state.value).split("http://" || "https://")[1];
+          axios.post(`${apiHost}/?originalurl=${url}`).then(res => {
               this.setState({
-                  value: res.data.url,
-                  tinyurl: res.data.hash
+                  urlRedirect: res.data.url,
+                  tinyURL: res.data.hash,
+                  openModal: true
               });
           }).catch(err => {
               console.log(err);
@@ -55,7 +55,7 @@ class Home extends Component {
                   show={this.state.openModal}
                   closed={this.closeModal}
                   newURL={this.state.tinyURL}
-                  yourHref={this.state.value}
+                  yourHref={this.state.urlRedirect}
               />
               <h1>Greg's URL Shortener</h1>
               <div className={appStyle.positioning}>
