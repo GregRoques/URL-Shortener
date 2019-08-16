@@ -4,27 +4,23 @@
     z-index: 200;
     border: 3px solid black;
     box-shadow: 0 4px 4px rgb(0,0,0,0.65);
-    border-radius:50%;
+    border-radius:25px;
     background-color:white;
     color:black;
-    padding-top:6rem;
-    padding:5%;
+    padding: 2rem;
     text-align: center;
     box-sizing: border-box;
-    width: 30vw;
+    width: 25vw;
     height:30vw;
     overflow-y: auto;
     transition: all 0.3s ease-out;
     word-wrap: break-word;
-    font-size: 16px;
+    font-size: 14px;
     left:35vw;
     top:30vh;
     
 }
 
-.Modal>div{
-    padding-top: 10%;
-}
 
 .ModalOpen {
     display:block;
@@ -53,15 +49,15 @@
 
 
 .closeButton {
-    width: 1.5rem;
-    height: 1.5rem;
-    background-color: rgb(0,0,0,.75);
+    width: 1.25rem;
+    height: 1.25rem;
+    background-color: blue;
     color:white;
-    font-weight: bold;
-    font-size: 18px;
+    font-weight: bolder;
+    font-size: 12px;
     text-align: center;
     vertical-align: center;
-    margin: 1rem;
+    margin-bottom: 1rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -73,3 +69,13 @@
     transform: scale(0.75)
 }
 
+.catImage{
+    text-align: center;
+    width:8vw;
+    height:8vw;
+}
+
+.header{
+    font-family: 'Kaushan Script', cursive;
+    color:blue;
+}

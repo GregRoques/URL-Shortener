@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import appStyle from "./Home.module.css";
-import ResultModal from "./components/modal";
-import swal from "sweetalert";
+import ResultModal from "./components/resultModal";
+import EmptyModal from "./components/emptyModal";
 import axios from "axios";
 
 class Home extends Component {
   state = {
       value: "",
       urlRedirect: "",
-      openModal: false,
+      isOpenResult: false,
+      isOpenEmpty: false,
       tinyURL: null
   };
 
@@ -18,9 +19,15 @@ class Home extends Component {
       });
   };
 
-  closeModal = () => {
+  closeResultModal = () => {
       this.setState({
-          openModal: false
+          isOpenResult: false
+      });
+  };
+
+  closeEmptyModal = () => {
+      this.setState({
+          isOpenEmpty: false
       });
   };
 
@@ -28,10 +35,8 @@ class Home extends Component {
       e.preventDefault();
       const newUrl = this.state.value;
       if (newUrl === "") {
-          swal({
-              text: "You didn't input a url for me to claw in half.",
-              icon: "https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/crying-cat-face.png",
-              button: "I'm on it!"
+          this.setState({
+              isOpenEmpty: true
           });
       } else {
           const apiHost = "http://localhost:2000/newurl";
@@ -40,7 +45,7 @@ class Home extends Component {
               this.setState({
                   urlRedirect: res.data.url,
                   tinyURL: res.data.hash,
-                  openModal: true
+                  isOpenResult: true
               });
           }).catch(err => {
               console.log(err);
@@ -51,9 +56,13 @@ class Home extends Component {
   render () {
       return (
           <div className={appStyle.App}>
+              <EmptyModal
+                  show={this.state.isOpenEmpty}
+                  closed={this.closeEmptyModal}
+              />
               <ResultModal
-                  show={this.state.openModal}
-                  closed={this.closeModal}
+                  show={this.state.isOpenResult}
+                  closed={this.closeResultModal}
                   newURL={this.state.tinyURL}
                   yourHref={this.state.urlRedirect}
               />

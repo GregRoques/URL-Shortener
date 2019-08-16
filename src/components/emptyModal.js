@@ -1,18 +1,16 @@
 import React from "react";
 import update from "./update.module.css";
 
-const ResultModal = props => {
-    const redirect = `http://${props.yourHref}`;
+const EmptyModal = props => {
     const cssModal = [
         update.Modal,
         props.show ? update.ModalOpen : update.ModalClosed
     ];
     return props.show ? (
         <div className={ cssModal.join(" ")}>
-            <div>
-                <p>Your trimmed URL is:</p>
-                <p><a rel="noopener noreferrer" href={redirect} target="_blank" >{props.newURL}</a></p>
-            </div>
+            <img className={update.catImage} src="https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/crying-cat-face.png"/>
+            <h1 className={update.header}>Meowww!</h1>
+            <p>You forgot to feed me a url to trim!</p>
             <button className={update.closeButton} onClick={props.closed}>
                 x
             </button>
@@ -20,4 +18,4 @@ const ResultModal = props => {
     ) : null;
 };
 
-export default ResultModal;
+export default EmptyModal;
