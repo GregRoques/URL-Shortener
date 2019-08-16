@@ -47,14 +47,21 @@ A custom a URL shortener web application in the same vein as bitly, TinyURL, etc
 When a user directs to a previously saved URL, the Front End Router send the '/:hash' param to a 'Redirector' route, which sends a GET request to the server in ComponentDidMount checking to see if the hash param is in the database. If so, it pushes the original url to the browser...otherwise, it redirects the user to the 'URL Shortener' homepage, where it sends a message letting them know their shortened url was invalid.
 
 ```
-getHash = () => {
+state = {
+        isRendered: false
+    }
+
+    getHash = () => {
         const apiHost = "http://localhost:2000";
         const hash = this.props.match.params.hash;
         axios.get(`${apiHost}/${hash}`).then(res => {
             window.location.replace(`http://${res.data}`);
-        }).catch(err => {
-            console.log(err);
         });
+        setTimeout(() => {
+            this.setState({
+                isRendered: true
+            });
+        }, 2000);
     }
 
     componentDidMount () {
@@ -62,11 +69,16 @@ getHash = () => {
     }
 
     render () {
-        return (
-            < Redirect to ={{
+        if (this.state.isRendered) {
+            return <Redirect to ={{
                 pathname: "/",
                 state: { message: `Whoops...not a valid redirect. ${"\n"} Create a shortened url below.` }
-            }}/>
+            }} />;
+        } else {
+            return (<div></div>);
+        }
+    };
+};
 ```
 
 ### Checking for Previous hashes

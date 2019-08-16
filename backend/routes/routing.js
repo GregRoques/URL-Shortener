@@ -9,7 +9,6 @@ router.get("/:hash", (req, res) => {
     db.execute(selectUrl).then(results => {
         res.json(results[0][0].url);
     }).catch(err => {
-        console.log(err);
         if (err) {
             throw err;
         }
