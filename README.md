@@ -19,89 +19,79 @@ A custom a URL shortener web application in the same vein as bitly, TinyURL, etc
 ## Technologies
 * HTML/CSS/JavaScript
 * React
-* Google Firebase
+* Express/Node.Js
+* MySQL
 * Cypress.js
 
 ## Packages
+### Front End
 * npx i create-react-app
-* npm i randomstring
 * npm i axios
+* npm i react-router-dom
+
+### Back End
+* npx i express
+* npm i body-parser
+* npm i mysql2
+* npm i helmet
+* npm i cors
+* npm i randomstring
+
+### Testing
 * npm i cypress --save-dev
-* npm i --save history
-* ./node_modules/.bin/eslint --init (https://www.npmjs.com/package/eslint)
 
 ## Functionality
 
-### On Mount
-* When the page loads, the page begins by asynchronously retrieving the previously stored custom pathnames and their corresponding Urls from the database. 
-* Next, the page checks the current url for a pathname. If one is present, it checks to see if it is in the database, and forwards it to its respective forwarding address if so; otherwise, it keeps the user on the current page.
+### URL Redirection
 
-    ```
-    componentDidMount = async ()=> {
-    await this.getURLs();
-    this.redirect()
-    }
-    ```
-### Submit Handler
-* The submitHandler ensures the submitted content is: 
-    a) valid; 
-    b) if a trimmed url already exists for this url;
-    c) if not, then a hash is generated, and this and the corresponding URL are pushed to the database. 
-* The hash is generated from the randomstring package (npm i randomstring)
-* Submit handler is called in the form upon submittal via:
-    ```
-    <form className={appStyle.box} onSubmit={e=>this.submitHandler(e)}>
-    ```
-* an e.preventDefault() is invoked in the function to prevent the page from reloading on submit.
+When a user directs to a previously saved URL, the Front End Router send the '/:hash' param to a 'Redirector' route, which sends a GET request to the server in ComponentDidMount checking to see if the hash param is in the database. If so, it pushes the original url to the browser...otherwise, it redirects the user to the 'URL Shortener' homepage, where it sends a message letting them know their shortened url was invalid.
 
-### Result Modal
-* Trimmed Urls are delivered via a modal that appears when the submitHandler() sets this.state.openModal to true upon retrieving the new url. This state is passed to the modal component and activated as follows:
-
-* makeFile.js
-    ```
-    <ResultModal
-          show={this.state.openModal}
-          closed={this.closeModal}
-          newURL={this.state.tinyURL}
-          yourHref={this.state.value}
-        />
-    ```
-* components/update.module.css
-    ```
-    .ModalOpen {
-    display:block;
-    animation: openModal 0.4s ease-out forwards;
+```
+getHash = () => {
+        const apiHost = "http://localhost:2000";
+        const hash = this.props.match.params.hash;
+        axios.get(`${apiHost}/${hash}`).then(res => {
+            window.location.replace(`http://${res.data}`);
+        }).catch(err => {
+            console.log(err);
+        });
     }
 
-    @keyframes openModal{
-        0%{
-            opacity: 0;
-            transform: translateY(-100%)
-            
+    componentDidMount () {
+        this.getHash();
+    }
+
+    render () {
+        return (
+            < Redirect to ={{
+                pathname: "/",
+                state: { message: `Whoops...not a valid redirect. ${"\n"} Create a shortened url below.` }
+            }}/>
+```
+
+### Checking for Previous hashes
+
+When a user goes to create a shortened url, the server (./backend/routes/routing) first checks to see if a unique hash has already been created for that link. If so, it returns the already saved hash and original url for redirection; otherwise, it goes on to the next POST function to create and return a shortened url.
+
+```
+router.post("/newurl", (req, res, next) => {
+    const originalUrl = req.query.originalurl;
+    const urlSearch = `SELECT hash, url FROM urls WHERE url='${originalUrl}'`;
+    db.execute(urlSearch).then(results => {
+        if (!results[0][0]) {
+            next();
+        } else {
+            res.json(results[0][0]);
         }
-        50%{
-            opacity: 1;
-            transform: translateY(90%)
+    }).catch(err => {
+        if (err) {
+            throw err;
         }
-        100%{
-            opacity: 1;
-            transform: translateY(0)
-        }
-    }
-    .ModalClosed {
-        display:none;
-    }
-    ```
-* components/modal.js
-    ```
-    const ResultModal = props => {
-    const cssModal = [
-        update.Modal,
-        props.show ? update.ModalOpen : update.ModalClosed
-    ];
-  return (
-    <div className={cssModal.join(' ')}>
-    ```
+    });
+});
+```
+
+
 
 ## Testing
 ### Cypress.JS 

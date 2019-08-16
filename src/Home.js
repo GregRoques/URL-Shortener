@@ -40,7 +40,8 @@ class Home extends Component {
           });
       } else {
           const apiHost = "http://localhost:2000/newurl";
-          const url = (this.state.value).split("http://" || "https://")[1];
+          const url = (this.state.value).split("//")[1];
+          console.log(url);
           axios.post(`${apiHost}/?originalurl=${url}`).then(res => {
               this.setState({
                   urlRedirect: res.data.url,
@@ -57,11 +58,11 @@ class Home extends Component {
       return (
           <div className={appStyle.App}>
               <EmptyModal
-                  show={this.state.isOpenEmpty}
+                  isRendered={this.state.isOpenEmpty}
                   closed={this.closeEmptyModal}
               />
               <ResultModal
-                  show={this.state.isOpenResult}
+                  isRendered={this.state.isOpenResult}
                   closed={this.closeResultModal}
                   newURL={this.state.tinyURL}
                   yourHref={this.state.urlRedirect}
