@@ -10,7 +10,8 @@ class Home extends Component {
       urlRedirect: "",
       isOpenResult: false,
       isOpenEmpty: false,
-      tinyURL: null
+      tinyURL: null,
+      video: "http://giphygifs.s3.amazonaws.com/media/lnCggcJbfrY8E/giphy.mp4"
   };
 
   valueHandler = e => {
@@ -56,35 +57,40 @@ class Home extends Component {
 
   render () {
       return (
-          <div className={appStyle.App}>
-              <EmptyModal
-                  isRendered={this.state.isOpenEmpty}
-                  closed={this.closeEmptyModal}
-              />
-              <ResultModal
-                  isRendered={this.state.isOpenResult}
-                  closed={this.closeResultModal}
-                  newURL={this.state.tinyURL}
-                  yourHref={this.state.urlRedirect}
-              />
-              <h1>Greg's URL Shortener</h1>
-              <div className={appStyle.positioning}>
-                  <form className={appStyle.box} onSubmit={e => this.submitHandler(e)}>
-                      <p>{ this.props.location.state ? this.props.location.state.message : "Trim Url Below!" }</p>
-                      <div>
-                          <input
-                              className={appStyle.inputText}
-                              type="url"
-                              placeholder="Paste URL Here"
-                              value={this.state.value}
-                              onChange={this.valueHandler}
-                              data-cy="input"
-                          />
-                      </div>
-                      <div>
-                          <button type="submit" className={appStyle.inputSubmit}>Submit</button>
-                      </div>
-                  </form>
+          <div className= { appStyle.App }>
+              <video className= { appStyle.background } play autoPlay autoPlay loop >
+                  <source src={this.state.video} type="video/mp4"/>
+              </video>
+              <div >
+                  <EmptyModal
+                      isRendered={this.state.isOpenEmpty}
+                      closed={this.closeEmptyModal}
+                  />
+                  <ResultModal
+                      isRendered={this.state.isOpenResult}
+                      closed={this.closeResultModal}
+                      newURL={this.state.tinyURL}
+                      yourHref={this.state.urlRedirect}
+                  />
+                  <h1 className = {appStyle.pageHeader }>URL Shredder</h1>
+                  <div className= {appStyle.boxPosition}>
+                      <form className={appStyle.box} onSubmit={e => this.submitHandler(e)}>
+                          <p>{ this.props.location.state ? this.props.location.state.message : "Trim Url Below!" }</p>
+                          <div>
+                              <input
+                                  className={appStyle.inputText}
+                                  type="url"
+                                  placeholder="Paste URL Here"
+                                  value={this.state.value}
+                                  onChange={this.valueHandler}
+                                  data-cy="input"
+                              />
+                          </div>
+                          <div>
+                              <button type="submit" className={appStyle.inputSubmit}>Submit</button>
+                          </div>
+                      </form>
+                  </div>
               </div>
           </div>
       );
