@@ -116,4 +116,4 @@ router.post("/newurl", (req, res, next) => {
         C) the trimmed URL's href matches that of the submitted URL (in this case, https://www.cnn.com).
 
 ## Video Demo
-![YouTube](/ReadMe/1.png)("https://www.youtube.com/watch?v=Vc_ZWM41dnM")
+![YouTube](/ReadMe/1.png)(https://www.youtube.com/watch?v=Vc_ZWM41dnM)
